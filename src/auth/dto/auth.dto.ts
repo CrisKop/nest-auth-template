@@ -12,4 +12,6 @@ export class AuthPayloadDto {
     example: '12345678',
   })
   password: string;
+
+  role?: string;
 }
