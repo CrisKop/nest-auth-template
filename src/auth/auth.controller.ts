@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { LocalGuard } from './guards/local.guard';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +20,8 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(LocalGuard)
-  login(@Body() authPayloadDto: AuthPayloadDto, @Req() req) {
+  @ApiBody({ type: AuthPayloadDto }) // Swagger doc manual
+  login(@Req() req) {
     console.log('inside AuthController login method');
     console.log(req.user);
 
