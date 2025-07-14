@@ -19,7 +19,7 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(LocalGuard)
-  login(@Req() req) {
+  login(@Body() authPayloadDto: AuthPayloadDto, @Req() req) {
     console.log('inside AuthController login method');
     console.log(req.user);
 
