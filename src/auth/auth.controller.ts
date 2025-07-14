@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { LocalGuard } from './guards/local.guard';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -44,6 +44,7 @@ export class AuthController {
 
   @Get('status')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   status(@Req() req) {
     console.log('inside AuthController status method');
     console.log(req.user);

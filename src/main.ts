@@ -26,6 +26,16 @@ async function bootstrap() {
         'API documentation for the NestJS Auth Template',
     )
     .setVersion(process.env.DOCS_VERSION || '1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'access-token',
+    )
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
