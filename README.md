@@ -22,11 +22,12 @@ Incluye:
 - Protección de rutas con `JwtAuthGuard`
 - Soporte para roles (`@Roles()`) y `RolesGuard`
 - CRUD de usuarios restringido por rol
-- Encriptación segura de contraseñas con bcrypt
-- Integración con MongoDB (Mongoose)
-- Variables de entorno y validación con Joi
+- Encriptación segura de contraseñas con `bcrypt`
+- Integración con MongoDB mediante `Mongoose`
+- Swagger (`/api`) con título, descripción y versión personalizables
+- Variables de entorno validadas con `Joi`
 
-Ideal para usar como **punto de partida** en cualquier aplicación que requiera autenticación y control de usuarios.
+Ideal como **punto de partida** para cualquier backend con autenticación y control de usuarios.
 
 ---
 
@@ -57,3 +58,13 @@ npm run test        # Unit tests
 npm run test:e2e    # End to end
 npm run test:cov    # Cobertura
 ```
+
+## 📚 Documentación (Swagger)
+
+La documentación de la API está disponible en:
+
+```bash
+http://localhost:3000/api
+```
+
+Puedes personalizar el título, descripción y versión usando variables de entorno (ver .env.example).
