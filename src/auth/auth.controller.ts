@@ -13,6 +13,7 @@ import { JwtAuthGuard } from './guards/jwt.guard';
 import { LocalGuard } from './guards/local.guard';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +22,7 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalGuard)
   @ApiBody({ type: AuthPayloadDto }) // Swagger doc manual
+  @Throttle({ short: { ttl: 60000, limit: 5 } }) // 5 intentos de login por minuto
   login(@Req() req) {
     console.log('inside AuthController login method');
     console.log(req.user);
@@ -33,6 +35,7 @@ export class AuthController {
   }
 
   @Post('register')
+  @Throttle({ short: { ttl: 300000, limit: 3 } }) // 3 registros por 5 minutos
   async register(@Body() createUserDto: CreateUserDto) {
     // Solo permitir registro en desarrollo
     if (process.env.NODE_ENV === 'production') {

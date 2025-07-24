@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ThrottlerExceptionFilter } from './auth/interceptors/throttler-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  // Aplicar el filtro de excepciones de throttling globalmente
+  app.useGlobalFilters(new ThrottlerExceptionFilter());
 
   // Configurar CORS con variable de entorno
   const frontendUrl =
