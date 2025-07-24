@@ -1,17 +1,16 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, MinLength, MaxLength, IsOptional } from 'class-validator';
 
 export class AuthPayloadDto {
-  @ApiProperty({
-    description: 'Nombre de usuario del usuario',
-    example: 'nombre_usuario',
-  })
+  @IsString()
+  @MinLength(3)
+  @MaxLength(20)
   username: string;
 
-  @ApiProperty({
-    description: 'Contraseña del usuario',
-    example: '12345678',
-  })
+  @IsString()
+  @MinLength(6)
   password: string;
 
+  @IsOptional()
+  @IsString()
   role?: string;
 }

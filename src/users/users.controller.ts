@@ -22,44 +22,44 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Roles('admin')
+  @Roles('superadmin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  @Roles('admin')
+  @Roles('superadmin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get('id/:id')
-  @Roles('admin')
+  @Roles('superadmin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
   }
 
   @Get('username/:username')
-  @Roles('admin')
+  @Roles('superadmin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   findByUsername(@Param('username') username: string) {
     return this.usersService.findByUsername(username);
   }
 
   @Patch(':id')
-  @Roles('admin')
+  @Roles('superadmin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles('superadmin')
   @UseGuards(JwtAuthGuard, RolesGuard)
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }

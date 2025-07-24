@@ -15,30 +15,36 @@ export class UsersService {
     const user = new this.userModel({
       username: createUserDto.username, // Store the username
       password: hasshedPassword, // Store the hashed password
-      role: 'user', // Store the role
+      role: createUserDto.role || 'user', // Store the role, default to 'user'
     });
     return user.save();
   }
 
   findAll() {
-    return this.userModel.find().exec(); // Return all users from the database
+    return this.userModel.find().select('-password').exec(); // Return all users from the database without passwords
   }
 
-  findOne(id: number) {
-    return this.userModel.findById(id).exec(); // Find a user by ID
+  findOne(id: string) {
+    return this.userModel.findById(id).select('-password').exec(); // Find a user by ID without password
   }
 
   findByUsername(username: string) {
-    return this.userModel.findOne({ username }).exec(); // Find a user by username
+    return this.userModel.findOne({ username }).exec(); // Find a user by username (with password for auth)
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    // If password is being updated, hash it
+    if (updateUserDto.password) {
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+    }
+
     return this.userModel
       .findByIdAndUpdate(id, updateUserDto, { new: true }) // Update a user by ID and return the updated user
+      .select('-password')
       .exec();
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.userModel.findByIdAndDelete(id).exec(); // Remove a user by ID
   }
 

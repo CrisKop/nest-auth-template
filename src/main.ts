@@ -8,15 +8,22 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true, // Automatically transform payloads to DTO instances
-      whitelist: true, // Strip properties that are not in the DTO
-      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
     }),
   );
+
+  // Configurar CORS con variable de entorno
+  const frontendUrl =
+    process.env.PUBLIC_FRONTEND_URL || 'http://localhost:5101';
   app.enableCors({
-    origin: '*', // Allow all origins
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
-    allowedHeaders: 'Content-Type, Accept', // Allowed headers
+    origin: [frontendUrl],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With',
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   });
 
   const config = new DocumentBuilder()

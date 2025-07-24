@@ -17,6 +17,8 @@ import * as Joi from 'joi';
         MONGODB_URI: Joi.string().uri().required(),
         JWT_SECRET: Joi.string().min(32).required(),
         JWT_EXPIRES_IN: Joi.string().default('1h'),
+        PUBLIC_FRONTEND_URL: Joi.string().uri().default('http://localhost:5101'),
+        PORT: Joi.number().default(3000),
       }),
     }),
 

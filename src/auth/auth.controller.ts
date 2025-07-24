@@ -34,6 +34,11 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
+    // Solo permitir registro en desarrollo
+    if (process.env.NODE_ENV === 'production') {
+      throw new HttpException('Registration is not allowed in production', 403);
+    }
+
     console.log('inside AuthController register method');
     const user = await this.authService.register(createUserDto);
     if (!user) {
@@ -49,5 +54,17 @@ export class AuthController {
     console.log('inside AuthController status method');
     console.log(req.user);
     return req.user;
+  }
+
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  logout(@Req() req) {
+    console.log('inside AuthController logout method');
+    console.log('User logged out:', req.user.username);
+    return {
+      message: 'Logout successful',
+      success: true,
+    };
   }
 }
